@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 
 USAGE = """Usage:
   /pace                        show switches
-  /pace <switch> on|off        switches: bionic, answerFirst, chunks, actionMarkers
+  /pace <switch> on|off        switches: bionic, answerFirst, chunks, actionMarkers, gloss
   /pace bionic <approach>      approaches: third, vowels, consonants, third+anchor
   /pace experimental gradient off|color|weight|both  HTML-capable reply surfaces only
   /pace anchor-trigger <n>     third+anchor bolds an extra consonant in words of n+ letters (2-50)

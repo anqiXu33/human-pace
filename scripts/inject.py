@@ -26,6 +26,7 @@ FRAGMENTS = (
     ("chunks", "chunks.md"),
     ("actionMarkers", "action-markers.md"),
     ("length", "length.md"),
+    ("gloss", "gloss.md"),
     ("bionic", None),
 )
 BIONIC_FRAGMENTS = {

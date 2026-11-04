@@ -10,7 +10,7 @@ on your machine; nothing is uploaded. Disable it with `/pace analytics off`.
 See [local usage analytics](#local-usage-analytics) for recorded fields and controls.
 
 ```
-/plugin marketplace add apostelis/human-pace
+/plugin marketplace add anqiXu33/human-pace
 /plugin install human-pace@human-pace
 ```
 
@@ -27,7 +27,7 @@ See [local usage analytics](#local-usage-analytics) for recorded fields and cont
 | Command | Effect |
 |---|---|
 | `/pace` | Show switches |
-| `/pace <switch> on\|off` | `bionic`, `answerFirst`, `chunks`, `actionMarkers` |
+| `/pace <switch> on\|off` | `bionic`, `answerFirst`, `chunks`, `actionMarkers`, `gloss` |
 | `/pace bionic <approach>` | `third`, `vowels`, `consonants` or `third+anchor`; turns bionic on |
 | `/pace anchor-trigger <n>` | Word length that gets an anchor consonant in `third+anchor` (default 8) |
 | `/pace length <n>` | Prose word cap, `0` = no cap |
@@ -292,7 +292,7 @@ python3 compliance/run.py                    # score real replies (calls claude 
 python3 compliance/run.py --approach vowels  # score one approach; also --anchor-trigger <n>
 ```
 
-**Ru**le **wo**rding **li**ves **i**n `rules/*.md`. **Ke**ep **a**ll **fra**gments **to**gether **un**der 1000 **cha**racters **p**er **ap**proach.
+**Ru**le **wo**rding **li**ves **i**n `rules/*.md`. **Ke**ep **a**ll **fra**gments **to**gether **un**der 1350 **cha**racters **p**er **ap**proach.
 
 ## License
 

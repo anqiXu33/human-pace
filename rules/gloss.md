@@ -1,0 +1,1 @@
+Gloss: on first use in the chat, add Chinese in plain brackets after formal or rarer words, terms outside ML/NLP/coding, and idioms not guessable from their words: mitigate (缓解), triage (分诊), after the fact (事后). Skip ML/NLP/coding terms and common work phrases. If the user writes a Chinese term, reply with the English term and the Chinese once.

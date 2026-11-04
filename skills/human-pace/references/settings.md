@@ -13,6 +13,7 @@ Line 1: the answer or outcome in one sentence.
 At most 3 sentences per paragraph; steps and options as lists.
 Put anything the user must do last, on a line starting "▶ You:".
 Under 200 prose words (code excluded); offer more rather than add it.
+Gloss: on first use in the chat, add Chinese in plain brackets after formal or rarer words, terms outside ML/NLP/coding, and idioms not guessable from their words: mitigate (缓解), triage (分诊), after the fact (事后). Skip ML/NLP/coding terms and common work phrases. If the user writes a Chinese term, reply with the English term and the Chinese once.
 Bionic reading: bold the first third of each prose word (ceil(letters / 3); min 1): **t**he **fo**cus **rea**ding **R**e-**a**dd. Numbers, headings and tables stay plain. No other bold.
 
 ## Preset light
@@ -22,6 +23,7 @@ Line 1: the answer or outcome in one sentence.
 At most 3 sentences per paragraph; steps and options as lists.
 Put anything the user must do last, on a line starting "▶ You:".
 Under 300 prose words (code excluded); offer more rather than add it.
+Gloss: on first use in the chat, add Chinese in plain brackets after formal or rarer words, terms outside ML/NLP/coding, and idioms not guessable from their words: mitigate (缓解), triage (分诊), after the fact (事后). Skip ML/NLP/coding terms and common work phrases. If the user writes a Chinese term, reply with the English term and the Chinese once.
 
 ## Preset off
 
@@ -42,6 +44,10 @@ Put anything the user must do last, on a line starting "▶ You:".
 ## length
 
 Under {length} prose words (code excluded); offer more rather than add it.
+
+## gloss
+
+Gloss: on first use in the chat, add Chinese in plain brackets after formal or rarer words, terms outside ML/NLP/coding, and idioms not guessable from their words: mitigate (缓解), triage (分诊), after the fact (事后). Skip ML/NLP/coding terms and common work phrases. If the user writes a Chinese term, reply with the English term and the Chinese once.
 
 ## Bionic third
 

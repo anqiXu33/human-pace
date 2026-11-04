@@ -33,7 +33,7 @@ class PaceTestBase(unittest.TestCase):
 class ShowAndChangeTest(PaceTestBase):
     def test_should_show_defaults_when_no_config(self):
         self.assertEqual(pace.run([]).splitlines()[0],
-                         "human-pace: bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200"
+                         "human-pace: bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200"
                          " · drift guard every 10 prompts")
 
     def test_should_persist_switch_when_toggled_off(self):
@@ -232,7 +232,7 @@ class RateTest(PaceTestBase):
     def test_should_append_entry_with_current_switches_when_rating_valid(self):
         pace.run(["bionic", "off"])
         out = pace.run(["rate", "4", "easier", "to", "scan"], now=NOW)
-        self.assertEqual(out, "Logged 4/5 for: bionic off · answerFirst on · chunks on · actionMarkers on · length 200")
+        self.assertEqual(out, "Logged 4/5 for: bionic off · answerFirst on · chunks on · actionMarkers on · gloss on · length 200")
         self.assertEqual(self.entries(), [{"ts": "2026-10-01T09:00:00+00:00",
                                            "switches": {**pc.DEFAULTS, "bionic": False},
                                            "score": 4, "note": "easier to scan"}])
@@ -264,7 +264,7 @@ class RateTest(PaceTestBase):
         self.log.write_text('{"ts": "t", "swi', encoding="utf-8")  # crash mid-write, no newline
         pace.run(["rate", "5"], now=NOW)
         self.assertEqual(pace.report(),
-                         "5.0 avg · 1 rating · bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200")
+                         "5.0 avg · 1 rating · bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200")
 
     def test_should_report_error_when_log_unwritable(self):
         self.log.mkdir(parents=True)  # a directory where the file should be
@@ -285,15 +285,15 @@ class ReportTest(PaceTestBase):
     def test_should_group_by_setting_and_sort_by_mean_when_log_has_entries(self):
         self.write_log([self.entry(2, bionic=False), self.entry(4), self.entry(5)])
         self.assertEqual(pace.report().splitlines(), [
-            "4.5 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200",
-            "2.0 avg · 1 rating · bionic off · answerFirst on · chunks on · actionMarkers on · length 200",
+            "4.5 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200",
+            "2.0 avg · 1 rating · bionic off · answerFirst on · chunks on · actionMarkers on · gloss on · length 200",
         ])
 
     def test_should_skip_line_cut_inside_multibyte_character_when_reporting(self):
         self.log.parent.mkdir(parents=True)
         self.log.write_bytes(self.entry(4).encode() + b'\n{"note": "caf\xc3\n' + self.entry(2).encode() + b"\n")
         self.assertEqual(pace.report(),
-                         "3.0 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200")
+                         "3.0 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200")
 
     def test_should_skip_hand_edited_entries_when_values_invalid(self):
         bad_score = json.dumps({"ts": "t", "switches": pc.DEFAULTS, "score": 99, "note": ""})
@@ -301,26 +301,26 @@ class ReportTest(PaceTestBase):
         bad_length = json.dumps({"ts": "t", "switches": {**pc.DEFAULTS, "length": "long"}, "score": 1, "note": ""})
         self.write_log([self.entry(4), bad_score, bad_switch, bad_length])
         self.assertEqual(pace.report(),
-                         "4.0 avg · 1 rating · bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200")
+                         "4.0 avg · 1 rating · bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200")
 
     def test_should_skip_corrupt_lines_when_reporting(self):
         self.write_log([self.entry(4), '{"ts": "t", "swi', "[]", '{"switches": {}, "score": "5"}', self.entry(2)])
         self.assertEqual(pace.report(),
-                         "3.0 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200")
+                         "3.0 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200")
 
     def test_should_keep_old_rounding_ratings_apart_from_new_third(self):
         old = {"bionic": True, "answerFirst": True, "chunks": True, "actionMarkers": True, "length": 200}
         self.write_log([json.dumps({"ts": "t", "switches": old, "score": 2, "note": ""}), self.entry(4)])
         self.assertEqual(pace.report().splitlines(), [
-            "4.0 avg · 1 rating · bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200",
-            "2.0 avg · 1 rating · bionic on (third, 0.4 rounding) · answerFirst on · chunks on · actionMarkers on · length 200",
+            "4.0 avg · 1 rating · bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200",
+            "2.0 avg · 1 rating · bionic on (third, 0.4 rounding) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200",
         ])
 
     def test_should_group_old_entries_with_bionic_off_like_new_ones(self):
         old = {"bionic": False, "answerFirst": True, "chunks": True, "actionMarkers": True, "length": 200}
         self.write_log([json.dumps({"ts": "t", "switches": old, "score": 2, "note": ""}), self.entry(4, bionic=False)])
         self.assertEqual(pace.report(),
-                         "3.0 avg · 2 ratings · bionic off · answerFirst on · chunks on · actionMarkers on · length 200")
+                         "3.0 avg · 2 ratings · bionic off · answerFirst on · chunks on · actionMarkers on · gloss on · length 200")
 
     def test_should_ignore_settings_without_effect_when_grouping(self):
         self.write_log([self.entry(4, bionicApproach="vowels", anchorTrigger=5),
@@ -328,14 +328,14 @@ class ReportTest(PaceTestBase):
                         self.entry(5, bionic=False, bionicApproach="consonants"),
                         self.entry(3, bionic=False)])
         self.assertEqual(pace.report().splitlines(), [
-            "4.0 avg · 2 ratings · bionic off · answerFirst on · chunks on · actionMarkers on · length 200",
-            "3.0 avg · 2 ratings · bionic on (vowels) · answerFirst on · chunks on · actionMarkers on · length 200",
+            "4.0 avg · 2 ratings · bionic off · answerFirst on · chunks on · actionMarkers on · gloss on · length 200",
+            "3.0 avg · 2 ratings · bionic on (vowels) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200",
         ])
 
     def test_should_ignore_drift_guard_when_grouping(self):
         self.write_log([self.entry(4, driftGuard=10), self.entry(2, driftGuard=0)])
         self.assertEqual(pace.report(),
-                         "3.0 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · length 200")
+                         "3.0 avg · 2 ratings · bionic on (third) · answerFirst on · chunks on · actionMarkers on · gloss on · length 200")
 
     def test_should_split_groups_by_trigger_when_third_anchor(self):
         self.write_log([self.entry(4, bionicApproach="third+anchor", anchorTrigger=6),

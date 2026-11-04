@@ -37,8 +37,12 @@ class BuildRulesTest(unittest.TestCase):
     def test_should_omit_length_fragment_when_length_zero(self):
         self.assertNotIn("prose words", inject.build_rules(cfg(length=0)))
 
+    def test_should_include_gloss_only_when_on(self):
+        self.assertIn("Gloss:", inject.build_rules(cfg(gloss=True)))
+        self.assertNotIn("Gloss:", inject.build_rules(cfg(gloss=False)))
+
     def test_should_return_empty_when_everything_off(self):
-        off = cfg(bionic=False, answerFirst=False, chunks=False, actionMarkers=False, length=0)
+        off = cfg(bionic=False, answerFirst=False, chunks=False, actionMarkers=False, gloss=False, length=0)
         self.assertEqual(inject.build_rules(off), "")
 
     def test_should_append_warning_when_config_error_given(self):
@@ -55,7 +59,7 @@ class BuildRulesTest(unittest.TestCase):
             for trigger in (pc.MIN_ANCHOR_TRIGGER, 8, pc.MAX_ANCHOR_TRIGGER):
                 with self.subTest(approach=approach, trigger=trigger):
                     rules = inject.build_rules(cfg(bionicApproach=approach, anchorTrigger=trigger))
-                    self.assertLessEqual(len(rules), 1000)
+                    self.assertLessEqual(len(rules), 1350)
 
     def test_should_send_only_the_active_approach_fragment(self):
         markers = {"third": "first third", "vowels": "every vowel", "consonants": "every consonant",
@@ -195,13 +199,13 @@ class OncePerSessionTest(unittest.TestCase):
     def test_should_tell_model_to_stop_when_everything_turned_off_mid_session(self):
         self.send("SessionStart")
         pc.save_config({**pc.defaults(), "bionic": False, "answerFirst": False, "chunks": False,
-                        "actionMarkers": False, "length": 0}, self.config)
+                        "actionMarkers": False, "gloss": False, "length": 0}, self.config)
         self.assertEqual(self.send("UserPromptSubmit"), inject.OFF_NOTICE)
         self.assertIsNone(self.send("UserPromptSubmit"))
 
     def test_should_stay_silent_all_session_when_everything_off(self):
         pc.save_config({**pc.defaults(), "bionic": False, "answerFirst": False, "chunks": False,
-                        "actionMarkers": False, "length": 0}, self.config)
+                        "actionMarkers": False, "gloss": False, "length": 0}, self.config)
         self.assertIsNone(self.send("SessionStart"))
         self.assertIsNone(self.send("UserPromptSubmit"))
 
@@ -238,7 +242,7 @@ class OncePerSessionTest(unittest.TestCase):
 
     def test_should_not_remind_when_everything_off(self):
         pc.save_config({**pc.defaults(), "bionic": False, "answerFirst": False, "chunks": False,
-                        "actionMarkers": False, "length": 0, "driftGuard": 2}, self.config)
+                        "actionMarkers": False, "gloss": False, "length": 0, "driftGuard": 2}, self.config)
         self.send("SessionStart")
         self.assertEqual([self.send("UserPromptSubmit") for _ in range(5)], [None] * 5)
 

@@ -7,14 +7,14 @@ import tempfile
 from pathlib import Path
 from typing import List, Optional, Tuple
 
-SWITCHES = ("bionic", "answerFirst", "chunks", "actionMarkers")
+SWITCHES = ("bionic", "answerFirst", "chunks", "actionMarkers", "gloss")
 APPROACHES = ("third", "vowels", "consonants", "third+anchor")
 GRADIENTS = ("off", "color", "weight", "both")
 MIN_ANCHOR_TRIGGER = 2
 MAX_ANCHOR_TRIGGER = 50
 MAX_DRIFT_GUARD = 100
 DEFAULTS = {"bionic": True, "bionicApproach": "third", "bionicGradient": "off", "anchorTrigger": 8, "answerFirst": True,
-            "chunks": True, "actionMarkers": True, "length": 200, "driftGuard": 10}
+            "chunks": True, "actionMarkers": True, "gloss": True, "length": 200, "driftGuard": 10}
 
 
 def config_path() -> Path:

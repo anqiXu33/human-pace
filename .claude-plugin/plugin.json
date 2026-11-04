@@ -5,8 +5,8 @@
   "author": {
     "name": "a.palogos"
   },
-  "homepage": "https://github.com/apostelis/human-pace",
-  "repository": "https://github.com/apostelis/human-pace",
+  "homepage": "https://github.com/anqiXu33/human-pace",
+  "repository": "https://github.com/anqiXu33/human-pace",
   "license": "MIT",
   "keywords": [
     "accessibility",
@@ -60,7 +60,7 @@
     "anchorTrigger": {
       "type": "number",
       "title": "Anchor word length",
-      "description": "Minimum word length for an extra anchor (2\u201350).",
+      "description": "Minimum word length for an extra anchor (2–50).",
       "default": 8,
       "min": 2,
       "max": 50
@@ -80,7 +80,13 @@
     "actionMarkers": {
       "type": "boolean",
       "title": "Action markers",
-      "description": "Mark actions with \u25b6 You:.",
+      "description": "Mark actions with ▶ You:.",
+      "default": true
+    },
+    "gloss": {
+      "type": "boolean",
+      "title": "Chinese gloss",
+      "description": "Add Chinese after uncommon English words.",
       "default": true
     },
     "length": {

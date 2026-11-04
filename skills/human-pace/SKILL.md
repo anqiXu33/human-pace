@@ -6,7 +6,7 @@ description: Apply human-pace formatting when the user requests bionic reading, 
 Apply human-pace to replies in the current conversation until the user changes or
 disables it. Read [settings.md](references/settings.md) for the formatting rules.
 Start with preset focus: bionic on using third, anchor trigger 8, answerFirst on,
-chunks on, actionMarkers on, prose length 200. Follow explicit user preferences.
+chunks on, actionMarkers on, gloss on, prose length 200. Follow explicit user preferences.
 Read-aloud requests override visual formatting until the user asks to resume it,
 as specified in the common rule; do not claim to detect playback or save this preference.
 
@@ -15,7 +15,7 @@ when routed to this skill. It is conversational syntax, not a registered slash
 command. Support:
 
 - No arguments: show the current settings.
-- `bionic`, `answerFirst`, `chunks`, `actionMarkers` followed by `on` or `off`.
+- `bionic`, `answerFirst`, `chunks`, `actionMarkers`, `gloss` followed by `on` or `off`.
 - `bionic third|vowels|consonants|third+anchor`: select an approach and enable it.
 - `experimental gradient off|color|weight|both`: opt-in HTML/CSS reply styling;
   default off. Non-off enables bionic; off removes only the gradient. Read the
